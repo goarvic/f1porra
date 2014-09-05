@@ -1,0 +1,105 @@
+
+
+
+
+.f1Logo{
+    background: url("../images/f_logo.png") no-repeat scroll 0 0 transparent;
+    /*background-size: cover;*/
+    height: 50px;
+    /*
+
+
+    */
+    /**/
+    position: absolute;
+    margin-right: 40px;
+    width: 100px;
+    left: 8%;
+    top: -20%;
+}
+
+.group{
+    width: 90%;
+    height: 150px;
+    margin: auto;
+    /*border: 1px dashed;*/
+    border-radius: 12px;
+    margin-bottom: 20px;
+    padding-top: 8px;
+    text-align: center;
+    padding-bottom: 5px;
+    background-color: rgba(165, 178, 216, 0.8);
+    box-shadow: 10px 10px 5px #888888;
+
+}
+
+#invitationsLabel{
+    margin-right: 4px;
+}
+
+#userDetails{
+    width: 100%;
+    margin: auto;
+    /*border: 1px dashed;*/
+    border-radius: 12px;
+    margin-bottom: 20px;
+    padding-top: 32px;
+    padding-bottom: 20px;
+    text-align: center;
+    background-color: rgba(36, 55, 58, 0.10);
+    /*box-shadow: 10px 10px 5px #888888;*/
+
+}
+
+
+.nextGPBox h4{
+    font-size: 125%;
+}
+
+.nextGPBox{
+    width: 100%;
+    font-size: 100%;
+    background-color: rgba(36, 55, 58, 0.10);
+    border-radius: 8px;
+    padding-top: 3px;
+    padding-bottom: 15px;
+    padding-left: 10px;
+    padding-right: 2px;
+}
+
+
+.countdownRace
+{
+    margin: auto !important;
+    margin-top: 20px !important;
+    height: 50px !important;
+    border-radius: 8px !important;
+
+}
+
+
+
+.buttonGroup{
+    margin-bottom: 15px;
+}
+
+.summaryRace h1{
+    font-size: 115%;
+}
+
+.nextGPBox h2{
+    text-align: center;
+    margin: auto;
+}
+
+.summaryRace h2{
+    font-size: 120%;
+    margin-bottom: 1px;
+}
+
+.summaryRaceRow{
+    padding-top: 0px;
+    margin-top: 0px;
+    margin-left: 3%;
+    font-size: 70%;
+}

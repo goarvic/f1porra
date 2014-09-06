@@ -28,14 +28,6 @@
 
 <div id="page-body" role="main" class="container">
 
-    <g:if test="${message_error}">
-        <div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>${message_error}</div>
-    </g:if>
-
-    <g:elseif test="${message}">
-        <div class="alert alert-success"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>${message}</div>
-    </g:elseif>
-
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title">Process GP's calendar from URL F1 Official Page</h3>
@@ -61,11 +53,7 @@
                 <button type="submit" class="btn btn-default" id="submitUser">Submit</button>
             </div>
         </g:form>
-
-
-
     </div>
-
 
 
 
@@ -94,9 +82,6 @@
                 <button type="submit" class="btn btn-default" id="submitURLResults">Submit</button>
             </div>
         </g:form>
-
-
-
     </div>
 
 
@@ -110,8 +95,6 @@
                 <button type="submit" class="btn btn-default" id="submitProcessClassification">Submit</button>
             </div>
         </g:form>
-
-
 
     </div>
 

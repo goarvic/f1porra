@@ -1,5 +1,7 @@
 package f1porra.adminControllers
 
+import f1porra.ConfigParams
+
 class ManageGrandPrixController {
 
     def retrieveGPsInfoService
@@ -8,7 +10,15 @@ class ManageGrandPrixController {
     def clasificationService
 
     def index() {
-        render (view: "manageGPs" , model : [])
+
+        ConfigParams configParams = null
+
+        if (ConfigParams.count() == 0)
+            request.error = "No encontrados parámetros de configuración"
+        else
+            configParams = ConfigParams.first()
+
+        render (view: "manageGPs" , model : [configParams:configParams])
     }
 
 
@@ -18,31 +28,28 @@ class ManageGrandPrixController {
 
         retrieveGPsInfoService.addGPsInformationFromURL(url)
 
-        request.message = "Success"
-        render (view: "manageGPs" , model : [])
+        flash.message = "Success"
+        redirect(controller: "manageGrandPrix", action: "index")
     }
 
 
     def processResults()
     {
         def url = params.urlResults
-
         retrieveResultsInfoService.retrieveResults(url)
 
-        request.message = "Success"
-        render (view: "manageGPs" , model : [])
+        flash.message = "Success"
+        redirect(controller: "manageGrandPrix", action: "index")
     }
-
 
 
     def processClassificationPointsPerUser()
     {
-
         int actualYear = new Date().getYear() + 1900
         clasificationService.processClasificationPerUserInSeason(actualYear)
 
-        request.message = "Parece que ok"
-        render (view: "manageGPs" , model : [])
+        flash.message = "Parece que ok"
+        redirect(controller: "manageGrandPrix", action: "index")
     }
 
 

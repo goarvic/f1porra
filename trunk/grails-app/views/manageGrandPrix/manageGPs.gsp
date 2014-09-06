@@ -47,7 +47,12 @@
                             <div class="form-group">
                                 <label for="url">URL of GP's Information</label>
                                 <a href="#" class="tooltipDemo" data-toggle="tooltip" title="F1 Team Name."></a>
-                                <input class="form-control required_input" type="text" name="url" id="url" value="http://www.formula1.com/races/calendar.html">
+                                <g:if test="${configParams != null}">
+                                    <input class="form-control required_input" type="text" name="url" id="url" value="${configParams.retrieveInfoGPs}">
+                                </g:if>
+                                <g:else>
+                                    <input class="form-control required_input" type="text" name="url" id="url" value="">
+                                </g:else>
                             </div>
                         </div>
                     </div>
@@ -66,7 +71,7 @@
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h3 class="panel-title">Process GP's results from URL F1 Official Page</h3>
+            <h3 class="panel-title">Retrieve GP's results from URL F1 Official Page</h3>
         </div>
         <g:form controller="manageGrandPrix" action="processResults" method="POST" enctype="multipart/form-data" name="urlGPsResultsForm">
             <div class="panel-body">
@@ -75,7 +80,12 @@
                         <div class="form-group">
                             <label for="urlResults">URL of GP's Results</label>
                             <a href="#" class="tooltipDemo" data-toggle="tooltip" title="F1 Team Name."></a>
-                            <input class="form-control required_input" type="text" name="urlResults" id="urlResults" value="http://www.formula1.com/results/season/">
+                            <g:if test="${configParams != null}">
+                                <input class="form-control required_input" type="text" name="urlResults" id="urlResults" value="${configParams.retrieveResultsURL}">
+                            </g:if>
+                            <g:else>
+                                <input class="form-control required_input" type="text" name="urlResults" id="urlResults" value="">
+                            </g:else>
                         </div>
                     </div>
                 </div>

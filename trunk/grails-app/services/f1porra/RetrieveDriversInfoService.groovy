@@ -3,6 +3,7 @@ package f1porra
 import f1porra.f1.Driver
 import f1porra.f1.Team
 import grails.transaction.Transactional
+import org.cyberneko.html.parsers.SAXParser
 
 
 @Transactional
@@ -10,13 +11,13 @@ class RetrieveDriversInfoService {
 
     void retrieveInfoDrivers(String url) {
 
+        log.info "Comenzando actualización de pilotos y equipos"
 
-
-        def parser = new org.cyberneko.html.parsers.SAXParser()
+        def parser = new SAXParser()
         parser.setFeature('http://xml.org/sax/features/namespaces', false)
         def page = new XmlParser(parser).parse(url)
 
-        ArrayList<groovy.util.Node> driversSections = page. depthFirst().UL.grep{it.'@class' == 'driverMugShot'}
+        ArrayList<Node> driversSections = page. depthFirst().UL.grep{it.'@class' == 'driverMugShot'}
 
         if (driversSections.size() == 0)
         {
@@ -41,20 +42,20 @@ class RetrieveDriversInfoService {
             }
         }
 
-        groovy.util.Node driverSection = driversSections.get(0)
+        Node driverSection = driversSections.get(0)
         def driversInfo = driverSection.depthFirst().DIV
 
 
-        for (groovy.util.Node node : driversInfo)
+        for (Node node : driversInfo)
         {
             def driverName = node.depthFirst().IMG."@alt"[0]
             def teamName = node.depthFirst().A[1].SPAN.text()
 
-            Team team = Team.findByName(teamName)
+            Team team = Team.findByName(teamName.toString())
 
             if (team == null)
             {
-                log.info "El equipo no se ha encontrado. Puede que sea nuevo o haya cambiado el nombre. Se procede a guardar uno nuevo."
+                log.info "El equipo ${teamName} no se ha encontrado. Puede que sea nuevo o haya cambiado el nombre. Se procede a guardar una nueva instancia."
                 team = new Team(name: teamName, logoName: teamName+".jpg")
                 if (team.save(flush:true) == null)
                 {
@@ -63,7 +64,7 @@ class RetrieveDriversInfoService {
                 }
             }
 
-            Driver driver = Driver.findByName(driverName)
+            Driver driver = Driver.findByName(driverName.toString())
             if (driver == null)
             {
                 log.info "El piloto no se ha encontrado. Puede que sea nuevo o haya cambiado el nombre en la web. Se procede a guardar uno nuevo."
@@ -82,6 +83,6 @@ class RetrieveDriversInfoService {
             }
         }
 
-        log.info "Actualización de pilotos correcta"
+        log.info "Actualización de pilotos y equipos finalizada correctamente"
     }
 }

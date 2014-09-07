@@ -1,5 +1,22 @@
 
+.f1PrincipalLogo{
+    margin: auto;
+    margin-top: 60px;
+}
 
+.intro-text{
+    font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 15px;
+    line-height: 1.42857;
+}
+
+.textPresentation{
+    width: 67px;
+    height: 22px;
+    display: inline-block;
+    margin-bottom: 0px;
+    background: url("../images/textPresentation.png") no-repeat scroll 0 0 transparent;
+}
 
 
 .f1Logo{

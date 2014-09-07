@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title><g:layoutTitle default="VGA Formula 1"/></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="${resource(dir: 'images', file: 'f1Icon.png')}" type="image/x-icon">
+    <link rel="shortcut icon" href="${resource(dir: 'images', file: 'miniLogo.png')}" type="image/x-icon">
     <link rel="apple-touch-icon" href="${resource(dir: 'images', file: 'apple-touch-icon.png')}">
     <link rel="apple-touch-icon" sizes="114x114" href="${resource(dir: 'images', file: 'apple-touch-icon-retina.png')}">
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'bootstrap.css')}" type="text/css">
@@ -120,7 +120,7 @@
                 <span class="icon-bar"></span>
             </button>
 
-            <a class="navbar-brand" href="#">VGA F1</a>
+            <a class="navbar-brand" href="#"><span class="textPresentation"></span></a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
@@ -130,13 +130,11 @@
                         <li id="manageTeamsMenu" class="active"><a href="${createLink(action: 'index', controller: 'teams')}"><span class="navmenu glyphicon glyphicon-th-large"></span>Teams</a></li>
                         <li id="manageGPsMenu" class="active"><a href="${createLink(action: 'index', controller: 'manageGrandPrix')}"><span class="glyphicon glyphicon-calendar"></span>GP's</a></li>
                     </sec:ifAllGranted>
-                    <sec:ifAllGranted roles="ROLE_USER">
+                    <sec:ifAnyGranted roles="ROLE_USER, ROLE_FACEBOOK">
                         <li id="billingsMenu" class="active"><a href="${createLink(action: 'index', controller: 'billings')}"><span class="navmenu glyphicon glyphicon-play"></span><g:message code="default.layouts.main.letsPlayMenu"/></a></li>
                         <li id="clasificationMenu" class="active"><a href="${createLink(action: 'index', controller: 'clasification')}"><span class="navmenu  glyphicon glyphicon-list-alt"></span><g:message code="default.layouts.main.classificationMenu"/></a></li>
                         <li id="rulesMenu" class="active"><a href="${createLink(action: 'index', controller: 'rulesInfo')}"><span class="navmenu glyphicon glyphicon-flag"></span><g:message code="default.layouts.main.rulesMenu"/></a></li>
-
-
-                    </sec:ifAllGranted>
+                    </sec:ifAnyGranted>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <sec:ifLoggedIn>

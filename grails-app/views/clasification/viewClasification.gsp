@@ -30,8 +30,13 @@
             });
 
         </g:each>
-        $('#table_${actualUser.groupsInside[0].name}').show()
-        $("#button_${actualUser.groupsInside[0].name}").addClass("active")
+
+        <g:if test="${actualUser.groupsInside.size() != 0}">
+            $('#table_${actualUser.groupsInside[0].name}').show()
+            $("#button_${actualUser.groupsInside[0].name}").addClass("active")
+        </g:if>
+
+
 
     });
     <g:each in="${actualUser.groupsInside}" var="group">

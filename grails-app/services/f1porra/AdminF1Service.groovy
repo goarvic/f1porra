@@ -98,7 +98,11 @@ class AdminF1Service {
         hoursToFinishPole = hoursToFinishPole / (1000 * 3600)
         hoursToFinishPole = hoursToFinishPole.toInteger()
 
-        usersToSendMail.each{user->
+
+        for (User user : usersToSendMail)
+        {
+            if ((user.email == null) || (user.email == ""))
+                continue;
 
             log.info "Enviando mail a " + user.email
             Billing userBilling = Billing.findByUserBillAndGrandPrix(user, gpOfVotes)

@@ -142,6 +142,10 @@
           <root url="jar://$MAVEN_REPOSITORY$/org/apache/httpcomponents/httpcore/4.0.1/httpcore-4.0.1.jar!/" />
           <root url="jar://$MAVEN_REPOSITORY$/org/apache/httpcomponents/httpclient/4.0/httpclient-4.0.jar!/" />
           <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/modules/http-builder/http-builder/0.5.0/http-builder-0.5.0.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/jackson/jackson-core-asl/1.9.2/jackson-core-asl-1.9.2.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/jackson/jackson-mapper-asl/1.9.2/jackson-mapper-asl-1.9.2.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/springframework/social/spring-social-facebook/1.0.1.RELEASE/spring-social-facebook-1.0.1.RELEASE.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/springframework/social/spring-social-core/1.0.1.RELEASE/spring-social-core-1.0.1.RELEASE.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

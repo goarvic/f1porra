@@ -53,6 +53,9 @@ grails.project.dependency.resolution = {
             excludes "commons-logging", "xml-apis", "groovy"
         }
         compile "org.apache.ant:ant:1.8.4"
+        compile 'org.springframework.social:spring-social-core:1.0.1.RELEASE'
+        compile 'org.springframework.social:spring-social-facebook:1.0.1.RELEASE'
+
         runtime 'mysql:mysql-connector-java:5.1.24'
 
     }

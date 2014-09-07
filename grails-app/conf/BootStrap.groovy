@@ -2,10 +2,7 @@ import f1porra.ConfigParams
 import f1porra.Role
 import f1porra.User
 import f1porra.UserRole
-import f1porra.f1.DriverHierarchy
-import f1porra.f1.GrandPrix
-import  f1porra.f1.Team
-import  f1porra.f1.Driver
+
 
 class BootStrap {
 
@@ -14,22 +11,31 @@ class BootStrap {
 
     def init = { servletContext ->
 
-        //*********************************************************************
+        //********************************************************************************
         //****************Roles y usuarios************************************************
+
         Role adminRole = Role.findByAuthority('ROLE_ADMIN')
         if (adminRole == null)
         {
             adminRole = new Role(authority: 'ROLE_ADMIN')
             if (adminRole.save(flush:true) == null)
-                System.out.println(adminRole.errors)
+                log.error("Error creando rol de administrador: " + adminRole.errors)
         }
 
         Role userRole = Role.findByAuthority('ROLE_USER')
         if (userRole == null)
         {
             userRole = new Role(authority: 'ROLE_USER')
-            (userRole.save(flush:true) == null)
-                System.out.println(userRole.errors)
+            if (userRole.save(flush:true) == null)
+                log.error("Error creando rol de usuario: " + userRole.errors)
+        }
+
+        Role facebookRole = Role.findByAuthority('ROLE_FACEBOOK')
+        if (facebookRole == null)
+        {
+            facebookRole = new Role(authority: 'ROLE_FACEBOOK')
+            if (facebookRole.save(flush:true) == null)
+                log.error("Error creando rol de usuarioFacebook: " + facebookRole.errors)
         }
 
         User adminUser = User.findByUsername("admin")
@@ -42,18 +48,10 @@ class BootStrap {
             UserRole.create adminUser, adminRole, true
         }
 
-        assert Role.count() == 2
-
-
-
-
-        //A programar Jobs
-
+        assert Role.count() == 3
         scheduleService.scheduleGPsAndRecordatorysJobs()
 
-
         //Vamos a analizar si hay parámetros de configuración guardados
-
         ConfigParams configParams
         if (ConfigParams.count == 0)
         {
@@ -77,13 +75,7 @@ class BootStrap {
         {
             configParams = ConfigParams.first()
         }
-
-
-        //Actualizamos información de pilotos conforme a los parámetros de configuración
         retrieveDriversInfoService.retrieveInfoDrivers(configParams.retrieveDriversInfoURL)
-
-
-
     }
     def destroy = {
     }

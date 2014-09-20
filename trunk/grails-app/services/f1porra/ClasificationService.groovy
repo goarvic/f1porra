@@ -7,9 +7,6 @@ import grails.transaction.Transactional
 @Transactional
 class ClasificationService {
 
-
-
-
     int isTheBetterInClassInGroup(GrandPrix gpToProcess, GroupV group, User userToProcess, Billing userBilling)
     {
         def hintsOfUser = 0
@@ -129,120 +126,125 @@ class ClasificationService {
 
     int processUserGPInGroup(GrandPrix gpToProcess, User userToProcess, GroupV group)
     {
-
-        UserClasificationGP userClasification = UserClasificationGP.findByUserAndGrandPrixAndGroup(userToProcess, gpToProcess, group)
-        def isNew = 0
-        if (userClasification == null)
+        if ((group.dateCreated != null)&&(group.dateCreated <= gpToProcess.raceStart))
         {
-            userClasification = new UserClasificationGP(user: userToProcess, grandPrix: gpToProcess, group: group)
-            isNew = 1
-        }
+            UserClasificationGP userClasification = UserClasificationGP.findByUserAndGrandPrixAndGroup(userToProcess, gpToProcess, group)
+            def isNew = 0
+            if (userClasification == null)
+            {
+                userClasification = new UserClasificationGP(user: userToProcess, grandPrix: gpToProcess, group: group)
+                isNew = 1
+            }
 
-        Billing userBilling = Billing.findByGrandPrixAndUserBill(gpToProcess, userToProcess)
-        if (userBilling == null)
-        {
-            userClasification.points = 0
+            Billing userBilling = Billing.findByGrandPrixAndUserBill(gpToProcess, userToProcess)
+            if (userBilling == null)
+            {
+                userClasification.points = 0
+                if (userClasification.save(flush:true) == null)
+                {
+                    log.error "Error salvando puntuación: " + userClasification.errors
+                    return -1
+                }
+                else
+                {
+                    if (isNew == 1)
+                    {
+                        group.addToUserClasifications(userClasification)
+                        if (group.save(flush: true) == null)
+                        {
+                            log.error "Error salvando nueva puntuación: " + group.errors
+                            return -1
+                        }
+                        userToProcess.addToUserClasifications(userClasification)
+                        if (userToProcess.save(flush: true) == null)
+                        {
+                            log.error "Error salvando nueva puntuación: " + userToProcess.errors
+                            return -1
+                        }
+                    }
+                }
+                return 0
+            }
+
+            def pointForClasification = isTheBetterInClassInGroup(gpToProcess, group, userToProcess,  userBilling)
+
+            def pointsOfRace = 0
+
+            def pointOfFastLap = 0
+
+            if (userBilling.raceBill.pos1 == gpToProcess.raceResult.pos1)
+            {
+                pointsOfRace++
+            }
+
+            if (userBilling.raceBill.pos2 == gpToProcess.raceResult.pos2)
+            {
+                pointsOfRace++
+            }
+
+            if (userBilling.raceBill.pos3 == gpToProcess.raceResult.pos3)
+            {
+                pointsOfRace++
+            }
+
+            if (userBilling.raceBill.pos4 == gpToProcess.raceResult.pos4)
+            {
+                pointsOfRace++
+            }
+
+            if (userBilling.raceBill.pos5 == gpToProcess.raceResult.pos5)
+            {
+                pointsOfRace++
+            }
+
+            if (userBilling.raceBill.pos6 == gpToProcess.raceResult.pos6)
+            {
+                pointsOfRace++
+            }
+
+            if (userBilling.raceBill.pos7 == gpToProcess.raceResult.pos7)
+            {
+                pointsOfRace++
+            }
+
+            if (userBilling.raceBill.pos8 == gpToProcess.raceResult.pos8)
+            {
+                pointsOfRace++
+            }
+
+            if (userBilling.fastLapBill == gpToProcess.fastLap)
+            {
+                pointOfFastLap++
+            }
+
+            userClasification.points = pointOfFastLap + pointsOfRace + pointForClasification
+
             if (userClasification.save(flush:true) == null)
             {
                 log.error "Error salvando puntuación: " + userClasification.errors
                 return -1
             }
-            else
+
+            if (isNew == 1)
             {
-                if (isNew == 1)
+                group.addToUserClasifications(userClasification)
+                if (group.save(flush: true) == null)
                 {
-                    group.addToUserClasifications(userClasification)
-                    if (group.save(flush: true) == null)
-                    {
-                        log.error "Error salvando nueva puntuación: " + group.errors
-                        return -1
-                    }
-                    userToProcess.addToUserClasifications(userClasification)
-                    if (userToProcess.save(flush: true) == null)
-                    {
-                        log.error "Error salvando nueva puntuación: " + userToProcess.errors
-                        return -1
-                    }
+                    log.error "Error salvando nueva puntuación: " + group.errors
+                    return -1
+                }
+                userToProcess.addToUserClasifications(userClasification)
+                if (userToProcess.save(flush: true) == null)
+                {
+                    log.error "Error salvando nueva puntuación: " + userToProcess.errors
+                    return -1
                 }
             }
-                return 0
+            return userClasification.points
         }
+        else
+            return 0
 
-        def pointForClasification = isTheBetterInClassInGroup(gpToProcess, group, userToProcess,  userBilling)
-
-        def pointsOfRace = 0
-
-        def pointOfFastLap = 0
-
-        if (userBilling.raceBill.pos1 == gpToProcess.raceResult.pos1)
-        {
-            pointsOfRace++
-        }
-
-        if (userBilling.raceBill.pos2 == gpToProcess.raceResult.pos2)
-        {
-            pointsOfRace++
-        }
-
-        if (userBilling.raceBill.pos3 == gpToProcess.raceResult.pos3)
-        {
-            pointsOfRace++
-        }
-
-        if (userBilling.raceBill.pos4 == gpToProcess.raceResult.pos4)
-        {
-            pointsOfRace++
-        }
-
-        if (userBilling.raceBill.pos5 == gpToProcess.raceResult.pos5)
-        {
-            pointsOfRace++
-        }
-
-        if (userBilling.raceBill.pos6 == gpToProcess.raceResult.pos6)
-        {
-            pointsOfRace++
-        }
-
-        if (userBilling.raceBill.pos7 == gpToProcess.raceResult.pos7)
-        {
-            pointsOfRace++
-        }
-
-        if (userBilling.raceBill.pos8 == gpToProcess.raceResult.pos8)
-        {
-            pointsOfRace++
-        }
-
-        if (userBilling.fastLapBill == gpToProcess.fastLap)
-        {
-            pointOfFastLap++
-        }
-
-        userClasification.points = pointOfFastLap + pointsOfRace + pointForClasification
-
-        if (userClasification.save(flush:true) == null)
-        {
-            log.error "Error salvando puntuación: " + userClasification.errors
-            return -1
-        }
-
-        if (isNew == 1)
-        {
-            group.addToUserClasifications(userClasification)
-            if (group.save(flush: true) == null)
-            {
-                log.error "Error salvando nueva puntuación: " + group.errors
-                return -1
-            }
-            userToProcess.addToUserClasifications(userClasification)
-            if (userToProcess.save(flush: true) == null)
-            {
-                log.error "Error salvando nueva puntuación: " + userToProcess.errors
-                return -1
-            }
-        }
-        return userClasification.points
 
     }
 

@@ -88,10 +88,10 @@ class ProfileController {
     {
         User actualUser = User.get(springSecurityService.getPrincipal().id)
 
-        GroupV newGroup = GroupV.findByName(params.groupName)
+        GroupV newGroup = GroupV.findByNameAndOwner(params.groupName, actualUser)
         if (newGroup != null)
         {
-            flash.error = "Sorry. This group name is not available. Please select other name."
+            flash.error = message(code: "default.profile.selectOtherName", args: [])
             redirect(controller: "profile", action: "index")
             return
         }
@@ -100,7 +100,7 @@ class ProfileController {
         if (newGroup.save(flush:true) == null)
         {
             log.info "error: " + newGroup.errors
-            flash.error = "Unknown Error"
+            flash.error = message(code: "default.profile.unknownError", args: [])
         }
 
         else
@@ -109,8 +109,7 @@ class ProfileController {
 
             def actualSeason = new Date().getYear() + 1900
             clasificationService.processGPsUsersForGroup(actualSeason, newGroup)
-            flash.message = "Success! Group Created"
-
+            flash.message = message(code: "default.profile.groupCreated", args: [])
         }
 
         redirect(controller: "profile", action: "index")
@@ -150,8 +149,7 @@ class ProfileController {
                 newInvitation.save(flush:true)
 
                 user.addToInvitations(newInvitation).save(flush:true)
-                flash.message = "Usuario invitado correctamente"
-
+                flash.message = message(code: "default.profile.userInvited", args: [])
             }
             else
             {
@@ -250,7 +248,7 @@ class ProfileController {
                 groupToAddUser.removeFromInvitations(invitation)
 
                 invitation.delete(flush: true)
-                flash.message = "Success. You are now on the group"
+                flash.message = message(code: "default.profile.invitationAccepted", args: [])
 
                 def actualSeason = new Date().getYear() + 1900
                 clasificationService.processGPsUsersForGroup(actualSeason, groupToAddUser)
@@ -292,7 +290,7 @@ class ProfileController {
         else
         {
             invitation.delete(flush: true)
-            flash.message = "Success. Invitation has been rejected"
+            flash.message = message(code: "default.profile.invitationRejected", args: [])
             redirect(controller: "profile", action: "index")
         }
     }
@@ -376,8 +374,4 @@ class ProfileController {
         else
             render '{"status" :"success"}'
     }
-
-
-
-
 }
